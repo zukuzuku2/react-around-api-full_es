@@ -1,0 +1,18 @@
+.profile__skills {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #ffffff;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 1280px) {
+  .profile__skills {
+    font-size: 18px;
+    line-height: 22px;
+    align-self: flex-start;
+  }
+}

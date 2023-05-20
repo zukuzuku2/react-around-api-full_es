@@ -1,0 +1,10 @@
+.sign-up__button {
+  width: 358px;
+  height: 50px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  margin-top: 216px;
+}
+.sign-up__button:hover {
+  cursor: pointer;
+}

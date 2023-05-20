@@ -1,0 +1,17 @@
+.elements {
+  padding-top: 36px;
+  width: 282px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+@media screen and (min-width: 1280px) {
+  .elements {
+    width: 880px;
+    flex-flow: row wrap;
+    gap: 17px;
+  }
+}

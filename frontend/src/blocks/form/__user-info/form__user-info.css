@@ -1,0 +1,11 @@
+.form__user-info {
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  padding: 76px 0 46px 0;
+}
+@media screen and (min-width: 1280px) {
+  .form__user-info {
+    padding: 54px 0 48px 0;
+  }
+}
