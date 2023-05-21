@@ -11,6 +11,7 @@ const routerCards = require("./routes/cards");
 const routerUsers = require("./routes/users");
 
 app.use(cors());
+app.options("*", cors());
 app.use(express.json());
 
 mongoose.connect("mongodb://127.0.0.1:27017/aroundb");
