@@ -1,4 +1,4 @@
-export const BASE_URL = "https://localhost";
+export const BASE_URL = "https://api.jose.desarrollointerno.com";
 
 export const signup = ({ email, password }) => {
   return fetch(`${BASE_URL}/signup`, {
