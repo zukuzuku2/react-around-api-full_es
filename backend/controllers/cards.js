@@ -1,69 +1,60 @@
-const Card = require('../models/card');
+const Card = require("../models/card");
 
-const getCardsController = (req, res) => {
+const getCardsController = (req, res, next) => {
   Card.find({})
     .orFail()
     .then((cards) => res.status(200).send({ data: cards }))
-    .catch(
-      (err) => {
-        if (err.statusCode === 404) {
-          res.status(404).send({ message: err.message });
-        } else{
-          res.status(500).send({ message: err.message || 'error interno del servidor'});
-        }
-      });
+    .catch(() => {
+      const err = new Error("No se encontraron Tarjetas");
+      err.statusCode = 404;
+      next(err);
+    });
 };
-const postCardsController = (req, res) => {
+const postCardsController = (req, res, next) => {
   const { name, link } = req.body;
   const { _id } = req.user;
   Card.create({ name, link, owner: _id })
     .then((card) => res.send({ data: card }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(VALIDATION_ERROR_CODE).send({ message: err.message });
-      } else {
-        res.status(500).send({ message: err.message || 'error interno del servidor' });
-      }
+    .catch(() => {
+      const err = new Error("Error en la insercion de los datos");
+      err.statusCode = 400;
+      next(err);
     });
 };
-const deleteCardController = (req, res) => {
+const deleteCardController = (req, res, next) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => res.send({ data: card }))
-    .catch((err) => {if (err.name === 'ValidationError') {
-      res.status(VALIDATION_ERROR_CODE).send({ message: err.message });
-    } else {
-      res.status(500).send({ message: err.message || 'error interno del servidor' });
-    }});
+    .catch(() => {
+      const err = new Error("Elemento no encontrado");
+      err.statusCode = 404;
+      next(err);
+    });
 };
 
-const addLikeCardController = (req, res) => {
+const addLikeCardController = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     .then((card) => res.send({ data: card }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(VALIDATION_ERROR_CODE).send({ message: err.message });
-      } else {
-        res.status(500).send({ message: err.message || 'error interno del servidor' });
-      }
+    .catch(() => {
+      const err = new Error("Elemento no encontrado");
+      err.statusCode = 404;
+      next(err);
     });
 };
-const deleteLikeCardController = (req, res) => {
+const deleteLikeCardController = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     .then((card) => res.send({ data: card }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(VALIDATION_ERROR_CODE).send({ message: err.message });
-      } else {
-        res.status(500).send({ message: err.message || 'error interno del servidor' });
-      }
+    .catch(() => {
+      const err = new Error("Elemento no encontrado");
+      err.statusCode = 404;
+      next(err);
     });
 };
 module.exports = {

@@ -1,12 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 
-function Header({ onClick, ...props }) {
+function Header({ onClick, image, email }) {
   const location = useLocation();
   return (
     <header className="header">
-      <img src={props.image} alt="Banner Header" className="header__pic" />
+      <img src={image} alt="Banner Header" className="header__pic" />
       <div className="header__text">
-        <p className="header__mail">{props.email}</p>
+        <p className="header__mail">{email}</p>
         <Link
           to={location.pathname === "/signin" ? "/signup" : "/signin"}
           className="header__login"

@@ -40,17 +40,21 @@ function App() {
 
   const [stateInfoToolTip, setStateInfoToolTip] = useState(true);
 
+  const [token, setToken] = useState("");
+
   useEffect(() => {
-    (function tokenCheck() {
-      const token = localStorage.getItem("token");
+    function tokenCheck() {
+      setToken(localStorage.getItem("token"));
       if (token) {
         auth.getContent(token).then((res) => {
+          console.log({ res });
           setLoggedIn(true);
-          setUserData(res.data.email);
+          setUserData(res.user.email);
         });
       }
-    })();
-  }, [userData]);
+    }
+    tokenCheck();
+  }, [token, userData]);
 
   useEffect(() => {
     if (loggedIn) {

@@ -3,7 +3,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-const createUserController = (req, res) => {
+const createUserController = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
   bcrypt
     .hash(password, 10)
@@ -19,18 +19,14 @@ const createUserController = (req, res) => {
     .then((user) => {
       res.send({ data: user });
     })
-    .catch((err) => {
-      if (err.name === "ValidationError") {
-        res.status(VALIDATION_ERROR_CODE).send({ message: err.message });
-      } else {
-        res
-          .status(500)
-          .send({ message: err.message || "error interno del servidor" });
-      }
+    .catch(() => {
+      const err = new Error("Error de Validacion");
+      err.statusCode = 400;
+      next(err);
     });
 };
 
-const loginUserController = (req, res) => {
+const loginUserController = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
@@ -43,121 +39,100 @@ const loginUserController = (req, res) => {
       );
       res.send({ token });
     })
-    .catch((err) => {
-      res.status(401).send({ message: err.message });
+    .catch(() => {
+      const err = new Error("No autorizado");
+      err.statusCode = 401;
+      next(err);
     });
 };
 
-const getUserController = (req, res) => {
+const getUserController = (req, res, next) => {
   User.find({})
     .orFail()
     .then((users) => res.send({ data: users }))
-    .catch((err) => {
-      if (err.statusCode === 404) {
-        res.status(404).send({ message: err.message });
-      } else {
-        res
-          .status(500)
-          .send({ message: err.message || "error interno del servidor" });
-      }
+    .catch(() => {
+      const err = new Error("Usuario no encontrado");
+      err.statusCode = 404;
+      next(err);
     });
 };
 
 //Preguntar acerca del punto 6 del proyecto
-const getUserByIdController = (req, res) => {
+const getUserByIdController = (req, res, next) => {
   User.findById(req.params.id)
     .orFail()
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: "ID de usuario no encontrado" });
+        const err = new Error("ID de usuario no encontrado");
+        err.statusCode = 404;
+        next(err);
         return;
       }
       res.send({ user: user });
     })
-    .catch((err) => {
-      if (err.name === "CastError") {
-        console.log("Llego a getUserByIdController");
-
-        res.status(400).send({ message: "ID de usuario no valido" });
-        return;
-      } else if (err.statusCode === 404) {
-        res.status(404).send({ message: err.message });
-      } else {
-        res
-          .status(500)
-          .send({ message: err.message || "error interno del servidor" });
-      }
+    .catch(() => {
+      const err = new Error("ID de usuario no valido");
+      err.statusCode = 400;
+      next(err);
     });
 };
 
-const updateMeController = (req, res) => {
+const updateMeController = (req, res, next) => {
   const { name, about, avatar } = req.body;
   const { _id } = req.user;
   User.findByIdAndUpdate(_id, { name, about, avatar })
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: "ID de usuario no encontrado" });
+        const err = new Error("ID de usuario no encontrado");
+        err.statusCode = 404;
+        next(err);
         return;
       }
       res.send({ user: user });
     })
-    .catch((err) => {
-      if (err.name === "ValidationError") {
-        res.status(VALIDATION_ERROR_CODE).send({ message: err.message });
-      } else {
-        res
-          .status(500)
-          .send({ message: err.message || "error interno del servidor" });
-      }
+    .catch(() => {
+      const err = new Error("ID de usuario no valido");
+      err.statusCode = 400;
+      next(err);
     });
 };
 
-const updateAvatarController = (req, res) => {
+const updateAvatarController = (req, res, next) => {
   const { avatar } = req.body;
   const { _id } = req.user;
   User.findByIdAndUpdate(_id, { avatar })
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: "ID de usuario no encontrado" });
+        const err = new Error("ID de usuario no encontrado");
+        err.statusCode = 404;
+        next(err);
         return;
       }
       res.send({ user: user });
     })
-    .catch((err) => {
-      if (err.name === "ValidationError") {
-        res.status(VALIDATION_ERROR_CODE).send({ message: err.message });
-      } else {
-        res
-          .status(500)
-          .send({ message: err.message || "error interno del servidor" });
-      }
+    .catch(() => {
+      const err = new Error("ID de usuario no valido");
+      err.statusCode = 400;
+      next(err);
     });
 };
 
-const getUserMeController = (req, res) => {
+const getUserMeController = (req, res, next) => {
   User.findById(req.user._id)
     .orFail()
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: "ID de usuario no encontrado" });
+        const err = new Error("ID de usuario no encontrado");
+        err.statusCode = 404;
+        next(err);
         return;
       }
       res.send({ user: user });
     })
-    .catch((err) => {
-      console.log(err.name);
-      if (err.name === "CastError") {
-        console.log("Llego a getUserMeController");
-
-        res.status(400).send({ message: "ID de usuario no valido" });
-        return;
-      } else if (err.statusCode === 404) {
-        res.status(404).send({ message: err.message });
-      } else {
-        res
-          .status(500)
-          .send({ message: err.message || "error interno del servidor" });
-      }
+    .catch(() => {
+      const err = new Error("ID de usuario no valido");
+      err.statusCode = 400;
+      next(err);
     });
 };
 
