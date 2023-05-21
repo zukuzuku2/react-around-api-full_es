@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.jose.desarrollointerno.com";
+const BASE_URL = "https://api.jose.desarrollointerno.com";
 
 export const signup = ({ email, password }) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -19,7 +19,6 @@ export const signup = ({ email, password }) => {
 };
 
 export const signin = ({ email, password }) => {
-  console.log(`${BASE_URL}/signin`);
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
