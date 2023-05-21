@@ -1,4 +1,4 @@
-export const BASE_URL = "api.jose.desarrollointerno.com";
+export const BASE_URL = "https://localhost";
 
 export const signup = ({ email, password }) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -14,10 +14,12 @@ export const signup = ({ email, password }) => {
         throw new Error(data.error);
       }
       return data.error;
-    });
+    })
+    .catch((err) => console.log(err.message));
 };
 
 export const signin = ({ email, password }) => {
+  console.log(`${BASE_URL}/signin`);
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
@@ -36,7 +38,7 @@ export const signin = ({ email, password }) => {
         throw new Error(data.message);
       }
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err.message));
 };
 
 export const getContent = (token) => {
@@ -52,5 +54,5 @@ export const getContent = (token) => {
     })
 
     .then((data) => data)
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err.message));
 };
