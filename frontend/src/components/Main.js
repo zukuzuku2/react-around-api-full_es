@@ -20,7 +20,6 @@ function Main(props) {
         <section className="profile" id="profile">
           <img
             ref={imgProfile}
-            // src={currentUser.avatar}
             alt="Imagen de perfil de usuario"
             className="profile__image"
             id="profile__image"

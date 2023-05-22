@@ -57,7 +57,6 @@ const getUserController = (req, res, next) => {
     });
 };
 
-//Preguntar acerca del punto 6 del proyecto
 const getUserByIdController = (req, res, next) => {
   User.findById(req.params.id)
     .orFail()

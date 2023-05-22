@@ -47,7 +47,6 @@ function App() {
       setToken(localStorage.getItem("token"));
       if (token) {
         auth.getContent(token).then((res) => {
-          console.log({ res });
           setLoggedIn(true);
           setUserData(res.user.email);
         });

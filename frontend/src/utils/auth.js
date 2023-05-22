@@ -48,7 +48,6 @@ export const getContent = (token) => {
     },
   })
     .then((res) => {
-      console.log({ res });
       return res.json();
     })
 
