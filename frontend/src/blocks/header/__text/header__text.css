@@ -2,3 +2,9 @@
   display: flex;
   justify-content: center;
 }
+@media screen and (min-width: 1280px) {
+  .header__text {
+    font-size: 42px;
+    line-height: 48px;
+  }
+}

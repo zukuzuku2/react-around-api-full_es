@@ -1,10 +1,17 @@
-const bcrypt = require("bcryptjs");
-const User = require("../models/user");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const createUserController = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name,
+    about,
+    avatar,
+    email,
+    password,
+  } = req.body;
   bcrypt
     .hash(password, 10)
     .then((hash) => {
@@ -20,7 +27,7 @@ const createUserController = (req, res, next) => {
       res.send({ data: user });
     })
     .catch(() => {
-      const err = new Error("Error de Validacion");
+      const err = new Error('Error de Validacion');
       err.statusCode = 400;
       next(err);
     });
@@ -32,15 +39,15 @@ const loginUserController = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         {
-          expiresIn: "7d",
-        }
+          expiresIn: '7d',
+        },
       );
       res.send({ token });
     })
     .catch(() => {
-      const err = new Error("No autorizado");
+      const err = new Error('No autorizado');
       err.statusCode = 401;
       next(err);
     });
@@ -51,7 +58,7 @@ const getUserController = (req, res, next) => {
     .orFail()
     .then((users) => res.send({ data: users }))
     .catch(() => {
-      const err = new Error("Usuario no encontrado");
+      const err = new Error('Usuario no encontrado');
       err.statusCode = 404;
       next(err);
     });
@@ -62,7 +69,7 @@ const getUserByIdController = (req, res, next) => {
     .orFail()
     .then((user) => {
       if (!user) {
-        const err = new Error("ID de usuario no encontrado");
+        const err = new Error('ID de usuario no encontrado');
         err.statusCode = 404;
         next(err);
         return;
@@ -70,7 +77,7 @@ const getUserByIdController = (req, res, next) => {
       res.send({ user: user });
     })
     .catch(() => {
-      const err = new Error("ID de usuario no valido");
+      const err = new Error('ID de usuario no valido');
       err.statusCode = 400;
       next(err);
     });
@@ -82,7 +89,7 @@ const updateMeController = (req, res, next) => {
   User.findByIdAndUpdate(_id, { name, about, avatar })
     .then((user) => {
       if (!user) {
-        const err = new Error("ID de usuario no encontrado");
+        const err = new Error('ID de usuario no encontrado');
         err.statusCode = 404;
         next(err);
         return;
@@ -90,7 +97,7 @@ const updateMeController = (req, res, next) => {
       res.send({ user: user });
     })
     .catch(() => {
-      const err = new Error("ID de usuario no valido");
+      const err = new Error('ID de usuario no valido');
       err.statusCode = 400;
       next(err);
     });
@@ -102,7 +109,7 @@ const updateAvatarController = (req, res, next) => {
   User.findByIdAndUpdate(_id, { avatar })
     .then((user) => {
       if (!user) {
-        const err = new Error("ID de usuario no encontrado");
+        const err = new Error('ID de usuario no encontrado');
         err.statusCode = 404;
         next(err);
         return;
@@ -110,7 +117,7 @@ const updateAvatarController = (req, res, next) => {
       res.send({ user: user });
     })
     .catch(() => {
-      const err = new Error("ID de usuario no valido");
+      const err = new Error('ID de usuario no valido');
       err.statusCode = 400;
       next(err);
     });
@@ -121,7 +128,7 @@ const getUserMeController = (req, res, next) => {
     .orFail()
     .then((user) => {
       if (!user) {
-        const err = new Error("ID de usuario no encontrado");
+        const err = new Error('ID de usuario no encontrado');
         err.statusCode = 404;
         next(err);
         return;
@@ -129,7 +136,7 @@ const getUserMeController = (req, res, next) => {
       res.send({ user: user });
     })
     .catch(() => {
-      const err = new Error("ID de usuario no valido");
+      const err = new Error('ID de usuario no valido');
       err.statusCode = 400;
       next(err);
     });

@@ -3,16 +3,16 @@
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 14px;
+  line-height: 17px;
   text-align: right;
   color: #ffffff;
 }
 
 @media screen and (min-width: 1280px) {
   .header__login {
-    /* width: 173px;
-    height: 33px; */
+    font-size: 18px;
+    line-height: 22px;
     padding: 0;
   }
 }

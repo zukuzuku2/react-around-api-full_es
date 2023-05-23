@@ -69,6 +69,7 @@ class Api {
   }
 
   getUserInfo() {
+    console.log('Cuantas veces me ejecuto');
     const requestOptions = {
       method: "GET",
       headers: this._header,

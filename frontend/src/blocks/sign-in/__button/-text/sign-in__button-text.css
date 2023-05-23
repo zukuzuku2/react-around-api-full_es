@@ -1,8 +1,16 @@
 .sign-in__button-text {
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 16px;
+  line-height: 19px;
   text-align: center;
   color: #000000;
 }
+
+@media screen and (min-width: 1280px) {
+  .sign-in__button-text {
+    font-size: 18px;
+    line-height: 22px;
+      }
+}
+

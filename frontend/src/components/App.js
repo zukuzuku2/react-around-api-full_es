@@ -53,7 +53,7 @@ function App() {
       }
     }
     tokenCheck();
-  }, [token, userData]);
+  }, [token, userData, loggedIn]);
 
   useEffect(() => {
     if (loggedIn) {
@@ -66,7 +66,7 @@ function App() {
     api.getUserInfo().then((data) => {
       setCurrentUser(data);
     });
-  }, [currentUser]);
+  }, [userData]);
 
   useEffect(() => {
     api.getCards().then((data) => {
@@ -137,7 +137,7 @@ function App() {
   }
 
   function handleLoggedOut() {
-    localStorage.removeItem("token");
+    setToken(localStorage.removeItem("token"));
     setLoggedIn(false);
   }
 

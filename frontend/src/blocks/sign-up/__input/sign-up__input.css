@@ -9,4 +9,15 @@
   border-bottom: 2px solid #cccccc;
   padding-top: 30px;
   padding-bottom: 13px;
+  width: 260px;
+  height: 27px;
 }
+
+@media screen and (min-width: 1280px) {
+  .sign-up__input {
+    font-size: 14px;
+    line-height: 17px;
+    width: 358px;
+  }
+}
+

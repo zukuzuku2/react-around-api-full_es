@@ -1,4 +1,6 @@
-const router = require("express").Router();
+const router = require('express').Router();
+const { celebrate, Joi } = require('celebrate');
+const validator = require('validator');
 const {
   createUserController,
   loginUserController,
@@ -6,21 +8,19 @@ const {
   updateMeController,
   updateAvatarController,
   getUserMeController,
-} = require("../controllers/users");
-const { auth } = require("../middleware/auth");
-const { celebrate, Joi } = require("celebrate");
-const validator = require("validator");
+} = require('../controllers/users');
+const { auth } = require('../middleware/auth');
 
 const validateURL = (value, helpers) => {
   if (validator.isURL(value)) {
     return value;
   }
-  return helpers.error("string.uri");
+  return helpers.error('string.uri');
 };
 
-router.get("/users", auth, getUserController);
+router.get('/users', auth, getUserController);
 router.patch(
-  "/users/me",
+  '/users/me',
   auth,
   celebrate({
     body: Joi.object().keys({
@@ -28,38 +28,38 @@ router.patch(
       about: Joi.string().required().min(2).max(30),
     }),
   }),
-  updateMeController
+  updateMeController,
 );
 router.patch(
-  "/users/me/avatar",
+  '/users/me/avatar',
   auth,
   celebrate({
     body: Joi.object().keys({
       avatar: Joi.string().required().custom(validateURL),
     }),
   }),
-  updateAvatarController
+  updateAvatarController,
 );
 router.post(
-  "/signin",
+  '/signin',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
       password: Joi.string().required(),
     }),
   }),
-  loginUserController
+  loginUserController,
 );
 router.post(
-  "/signup",
+  '/signup',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
       password: Joi.string().required(),
     }),
   }),
-  createUserController
+  createUserController,
 );
-router.get("/users/me", auth, getUserMeController);
+router.get('/users/me', auth, getUserMeController);
 
 module.exports = router;

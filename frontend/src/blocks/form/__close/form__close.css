@@ -2,8 +2,8 @@
   width: 26px;
   height: 26px;
   position: absolute;
-  top: -32px;
-  right: 0;
+  top: -52px;
+  right: 115px;
   transition: opacity 0.5s linear;
   z-index: 1;
 }
