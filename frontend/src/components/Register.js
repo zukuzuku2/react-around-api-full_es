@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import * as auth from "../utils/auth";
+import FormValidator from "./FormValidator";
 
 function Register({
   onSuccesPopupOpen,
@@ -13,6 +14,7 @@ function Register({
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,7 +36,7 @@ function Register({
   };
 
   return (
-    <>
+    <FormValidator errors={errors} setErrors={setErrors}>
       <form
         className="sign-up"
         noValidate
@@ -53,6 +55,11 @@ function Register({
           value={values.email}
           onChange={handleChange}
         />
+        <span
+          className={`form-name-error form__input-error form__input-error_active`}
+        >
+          {errors.email}
+        </span>
         <input
           type="password"
           name="password"
@@ -64,6 +71,11 @@ function Register({
           value={values.password}
           onChange={handleChange}
         />
+        <span
+          className={`form-name-error form__input-error form__input-error_active`}
+        >
+          {errors.password}
+        </span>
         <button className="sign-up__button" type="submit">
           <p className="sign-up__button-text">Regístrate</p>
         </button>
@@ -71,7 +83,8 @@ function Register({
           ¿Ya eres miembro? Inicia sesión aquí
         </Link>
       </form>
-    </>
+      className={`login__input ${errors.username ? "login__input_error" : ""}`}
+    </FormValidator>
   );
 }
 

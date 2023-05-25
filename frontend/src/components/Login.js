@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import * as auth from "../utils/auth";
+import FormValidator from "./FormValidator";
 
 function Login({
   isLoggedIn,
@@ -15,6 +16,7 @@ function Login({
     email: "",
   });
   const [isChangeState, setIsChangeState] = useState(false);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (isChangeState) {
@@ -24,7 +26,6 @@ function Login({
       });
       isLoggedIn();
       handleStateSuccessInfo();
-      onSuccesPopupOpen();
       history.push("/main");
     }
   }, [
@@ -59,7 +60,7 @@ function Login({
   };
 
   return (
-    <>
+    <FormValidator errors={errors} setErrors={setErrors}>
       <form
         className="sign-in"
         noValidate
@@ -78,6 +79,12 @@ function Login({
           value={values.email}
           onChange={handleChange}
         />
+        <span
+          className={`form-name-error form__input-error form__input-error_active`}
+        >
+          {errors.email}
+        </span>
+
         <input
           type="password"
           name="password"
@@ -89,6 +96,12 @@ function Login({
           value={values.password}
           onChange={handleChange}
         />
+        <span
+          className={`form-name-error form__input-error form__input-error_active`}
+        >
+          {errors.password}
+        </span>
+
         <button className="sign-in__button" type="submit">
           <p className="sign-in__button-text">Iniciar sesión</p>
         </button>
@@ -96,7 +109,7 @@ function Login({
           ¿Aún no eres miembro? Regístrate aquí
         </Link>
       </form>
-    </>
+    </FormValidator>
   );
 }
 
