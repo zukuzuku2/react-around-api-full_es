@@ -1,7 +1,7 @@
 {
   "name": "around-express_es",
   "version": "1.0.0",
-  "description": "`/data` — JSON files to temporarily emulate database integration.",
+  "description": "`/data` \u2014 JSON files to temporarily emulate database integration.",
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
@@ -36,5 +36,9 @@
     "mongoose": "^7.0.4",
     "validator": "^13.9.0",
     "winston": "^3.8.2"
+  },
+  "overrides": {
+    "minimatch": "^9.0.3",
+    "brace-expansion": "^5.0.8"
   }
 }
